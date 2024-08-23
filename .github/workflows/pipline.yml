@@ -27,21 +27,15 @@ jobs:
           java-version: '22'
           cache: 'gradle'
 
-      # Даём права на выполнение gradle
-      - name: Change wrapper permissions
-        run: chmod +x ./gradlew
-
-      #      - name: Run tests
-      #        run: |
-      #          ./gradlew test
-
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
 
       # Генерируем APK
       - name: Publish Lib to Github Packages and Maven Central
         env:
           MAVEN_USER: ${{ secrets.MAVEN_USER }}
           MAVEN_PASS: ${{ secrets.MAVEN_PASS }}
-          SIGNING_SECRET_KEY: ${{ secrets.SIGNING_PASSWORD }}
+          SIGNING_SECRET_KEY: ${{ secrets.SIGNING_SECRET_KEY }}
           SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
         run: |
-          ./gradlew publishToCentralPortal --debug
+          ./gradlew publishToCentralPortal
