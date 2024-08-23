@@ -44,4 +44,4 @@ jobs:
           SIGNING_SECRET_KEY: ${{ secrets.SIGNING_PASSWORD }}
           SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
         run: |
-          ./gradlew publishToCentralPortal
+          ./gradlew publishToCentralPortal --debug
