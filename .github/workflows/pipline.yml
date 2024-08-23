@@ -33,6 +33,8 @@ jobs:
       # Генерируем APK
       - name: Publish Lib to Github Packages and Maven Central
         env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ github.token }}
           MAVEN_USER: ${{ secrets.MAVEN_USER }}
           MAVEN_PASS: ${{ secrets.MAVEN_PASS }}
           SIGNING_SECRET_KEY: ${{ secrets.SIGNING_SECRET_KEY }}
