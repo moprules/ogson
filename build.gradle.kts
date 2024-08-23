@@ -1,15 +1,16 @@
+import cn.lalaki.pub.BaseCentralPortalPlusExtension
 import java.util.*
-import org.gradle.api.tasks.Copy
 
 plugins {
     kotlin("jvm") version "2.0.0"
     `java-library`
     `maven-publish`
+    id("cn.lalaki.central") version "1.2.5"
     signing
 }
 
 group = "ru.moprules"
-version = "0.0.1-alpha.1"
+version = "0.0.1-alpha.2"
 
 repositories {
     mavenCentral()
@@ -44,6 +45,14 @@ java {
     withJavadocJar()
 }
 
+val localMavenRepo = uri(layout.buildDirectory.dir("local_maven"))
+centralPortalPlus {
+    url = localMavenRepo
+    username = localProperties["maven.username"] as String? ?: System.getenv("MAVEN_USER")
+    password = localProperties["maven.password"] as String? ?: System.getenv("MAVEN_PASS")
+    publishingType = BaseCentralPortalPlusExtension.PublishingType.AUTOMATIC // or PublishingType.AUTOMATIC
+}
+
 publishing {
     publications {
         create<MavenPublication>("mavenJava") {
@@ -71,22 +80,9 @@ publishing {
                     url = "https://github.com/moprules/ogson"
                 }
             }
-
-//            groupId = "ru.moprules"
-//            artifactId = "ogson"
-//            version = "X.X.X"
         }
     }
     repositories {
-//        // Публикация в OSSRH (Maven Central)
-//        maven {
-//            name = "OSSRH"
-//            url = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
-//            credentials {
-//                username = System.getenv("MAVEN_USERNAME")
-//                password = System.getenv("MAVEN_PASSWORD")
-//            }
-//        }
 
         // Публикация в GitHub Packages
         maven {
@@ -101,8 +97,8 @@ publishing {
         }
 
         maven {
-            name = "LocalMavenRepo"
-            url = uri("file:///home/mop/local-maven-repo") // Укажите локальный путь
+            name = "localMavenRepo"
+            url = localMavenRepo
         }
     }
 }
