@@ -10,7 +10,7 @@ plugins {
 }
 
 group = "ru.moprules"
-version = "0.0.1-alpha.3"
+version = "0.0.1-alpha.4"
 
 repositories {
     mavenCentral()
@@ -84,17 +84,17 @@ publishing {
     }
     repositories {
 
-//        // Публикация в GitHub Packages
-//        maven {
-//            name = "GitHubPackages"
-//            url = uri("https://maven.pkg.github.com/moprules/ogson")
-//            credentials {
-//                // Имя пользователя GitHub (обычно GITHUB_ACTOR в Actions)
-//                username = localProperties["gpr.user"] as String? ?: System.getenv("GITHUB_ACTOR")
-//                // Токен доступа (обычно GITHUB_TOKEN в Actions)
-//                password = localProperties["gpr.token"] as String? ?: System.getenv("GITHUB_TOKEN")
-//            }
-//        }
+        // Публикация в GitHub Packages
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/moprules/ogson")
+            credentials {
+                // Имя пользователя GitHub (обычно GITHUB_ACTOR в Actions)
+                username = localProperties["gpr.user"] as String? ?: System.getenv("GITHUB_ACTOR")
+                // Токен доступа (обычно GITHUB_TOKEN в Actions)
+                password = localProperties["gpr.token"] as String? ?: System.getenv("GITHUB_TOKEN")
+            }
+        }
 
         maven {
             name = "localMavenRepo"
