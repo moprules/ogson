@@ -32,7 +32,7 @@ fun getLastVersion(defaultVersion: String = "1.0.0-SNAPSHOT"): String {
 }
 
 group = "ru.moprules"
-version = getLastVersion("1.0.0-SNAPSHOT")
+version = getLastVersion("0.0.1-SNAPSHOT")
 
 repositories {
     mavenCentral()
@@ -144,6 +144,5 @@ tasks.register("lastVer") {
     doLast {
         val ver = getLastVersion()
         println("project verson: $ver")
-        // Логика использования тега
     }
 }

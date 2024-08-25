@@ -37,7 +37,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       # Публикуем библиотеку в maven central
-      - name: Publish library Maven Central
+      - name: Publish library Github Packages and Maven Central
         env:
           MAVEN_USER: ${{ secrets.MAVEN_USER }}
           MAVEN_PASS: ${{ secrets.MAVEN_PASS }}
@@ -50,7 +50,7 @@ jobs:
 
       - name: Rename archive for release
         run: |
-          mv $GITHUB_WORKSPACE/build/local_maven/build.zip ${{ env.release_path }}
+          cp $GITHUB_WORKSPACE/build/local_maven/bundle.zip ${{ env.release_path }}
 
       - name: Release
         uses: softprops/action-gh-release@v2
