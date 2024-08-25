@@ -1,16 +1,38 @@
 import cn.lalaki.pub.BaseCentralPortalPlusExtension
-import java.util.*
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.util.Properties
+
 
 plugins {
-    kotlin("jvm") version "2.0.0"
+    kotlin("jvm") version "2.0.20"
     `java-library`
     `maven-publish`
     id("cn.lalaki.central") version "1.2.5"
     signing
 }
 
+fun getLastVersion(defaultVersion: String = "1.0.0-SNAPSHOT"): String {
+    val stdout = ByteArrayOutputStream()
+    return try {
+        exec {
+            commandLine = "git describe --tags --abbrev=0".split(" ")
+            standardOutput = stdout
+        }
+        val tag = stdout.toString().trim()
+        if (tag.isEmpty()) {
+            defaultVersion
+        } else {
+            // Удалить первую букву 'v', если она есть
+            tag.removePrefix("v")
+        }
+    } catch (e: Exception) {
+        defaultVersion
+    }
+}
+
 group = "ru.moprules"
-version = "0.0.1-alpha.4"
+version = getLastVersion("1.0.0-SNAPSHOT")
 
 repositories {
     mavenCentral()
@@ -116,4 +138,12 @@ signing {
 
     useInMemoryPgpKeys(signingSecretKey, signingPassword)
     sign(publishing.publications["mavenJava"])
+}
+
+tasks.register("lastVer") {
+    doLast {
+        val ver = getLastVersion()
+        println("project verson: $ver")
+        // Логика использования тега
+    }
 }
