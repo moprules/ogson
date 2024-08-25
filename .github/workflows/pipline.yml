@@ -17,6 +17,11 @@ jobs:
       packages: write
 
     steps:
+
+      # Настройка переменных
+      - name: Set up environment variables
+        run: |
+          echo "release_path=${{ github.workspace }}/ogson_${{ github.ref_name }}_$(date +'%Y-%m-%d').zip" >> $GITHUB_ENV
       
       # Переходим на нужную ветку
       - uses: actions/checkout@v4
@@ -43,7 +48,13 @@ jobs:
         run: |
           ./gradlew publishToCentralPortal
 
+      - name: Rename archive for release
+        run: |
+          mv $GITHUB_WORKSPACE/build/local_maven/build.zip ${{ env.release_path }}
+
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.ref_name }}
+          files: |
+            ${{ env.release_path }}
